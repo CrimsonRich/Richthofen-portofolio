@@ -10,23 +10,25 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;600;700&family=Caveat:wght@400;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="ambient.css">
+    <link rel="stylesheet" href="flipcard.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* ============================================
-           MASCULINE DARK ADVENTURE THEME
-        ============================================ */
+           PROFESSIONAL DEEP BLUE THEME
+         ============================================ */
         :root {
-            --bg-deep:      #0D0F14;
-            --bg-card:      #141720;
-            --bg-surface:   #1A1E2B;
-            --accent-gold:  #C9973A;
-            --accent-ember: #D94F2B;
-            --accent-steel: #4A7FA5;
-            --text-primary: #E8E2D5;
-            --text-muted:   #8A8F9E;
-            --text-dim:     #5A5F6E;
-            --border:       rgba(201,151,58,0.2);
-            --border-bright:rgba(201,151,58,0.5);
+            --bg-deep:      #161616;
+            --bg-card:      #1e1e1e;
+            --bg-surface:   #1a1a1a;
+            --accent-gold:  #1c47c6;
+            --accent-ember: #76150c;
+            --accent-steel: #1c47c6;
+            --text-primary: #f2f1ef;
+            --text-muted:   #9a9890;
+            --text-dim:     #b5b3ae;
+            --border:       rgba(28,71,198,0.15);
+            --border-bright:rgba(28,71,198,0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,6 +39,7 @@
             background-color: var(--bg-deep);
             color: var(--text-primary);
             overflow-x: hidden;
+            cursor: none;
         }
 
         /* Subtle grid background */
@@ -46,8 +49,8 @@
             inset: 0;
             z-index: -2;
             background-image:
-                linear-gradient(rgba(201,151,58,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(201,151,58,0.04) 1px, transparent 1px);
+                linear-gradient(rgba(28,71,198,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(28,71,198,0.03) 1px, transparent 1px);
             background-size: 60px 60px;
         }
 
@@ -57,9 +60,62 @@
             inset: 0;
             z-index: -1;
             background:
-                radial-gradient(ellipse at 15% 20%, rgba(217,79,43,0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 85% 80%, rgba(74,127,165,0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(201,151,58,0.05) 0%, transparent 60%);
+                radial-gradient(ellipse at 15% 20%, rgba(118,21,12,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 80%, rgba(28,71,198,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(118,21,12,0.05) 0%, transparent 60%);
+        }
+
+        /* ============================================
+           CUSTOM CURSOR
+        ============================================ */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #1c47c6;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s;
+            box-shadow: 0 0 6px rgba(28,71,198,0.3);
+        }
+        .cursor-dot.hover { width: 5px; height: 5px; background: #f2f1ef; }
+        .cursor-dot.click { width: 6px; height: 6px; }
+
+        .cursor-ring {
+            position: fixed;
+            width: 36px;
+            height: 36px;
+            border: 2px solid rgba(28,71,198,0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-color 0.3s, opacity 0.3s;
+        }
+        .cursor-ring.hover { width: 56px; height: 56px; border-color: rgba(28,71,198,0.2); opacity: 0.6; }
+        .cursor-ring.click { width: 30px; height: 30px; }
+
+        .cursor-ripple {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(28,71,198,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            animation: cursorRipple 0.6s ease-out forwards;
+        }
+        @keyframes cursorRipple {
+            0% { width: 20px; height: 20px; opacity: 1; }
+            100% { width: 60px; height: 60px; opacity: 0; }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-ring { display: none !important; }
         }
 
         /* ============================================
@@ -73,7 +129,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(13,15,20,0.85);
+            background: rgba(22,22,22,0.85);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
         }
@@ -153,7 +209,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(201,151,58,0.12);
+            background: rgba(28,71,198,0.12);
             border: 1px solid var(--accent-gold);
             color: var(--accent-gold);
             font-size: 0.75rem;
@@ -213,18 +269,18 @@
         .btn-primary {
             background: var(--accent-gold);
             color: #0D0F14;
-            box-shadow: 0 4px 24px rgba(201,151,58,0.3);
+            box-shadow: 0 4px 24px rgba(28,71,198,0.3);
         }
         .btn-primary:hover {
-            background: #e0aa46;
+            background: #153a9e;
             transform: translateY(-3px);
-            box-shadow: 0 8px 32px rgba(201,151,58,0.45);
+            box-shadow: 0 8px 32px rgba(28,71,198,0.45);
         }
 
         .btn-outline {
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid rgba(232,226,213,0.3);
+            border: 1px solid rgba(232,237,245,0.3);
         }
         .btn-outline:hover {
             border-color: var(--accent-gold);
@@ -243,7 +299,7 @@
 
         .polaroid {
             position: absolute;
-            background: #F0EAD6;
+            background: #1e1e1e;
             padding: 10px 10px 44px;
             box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -271,7 +327,7 @@
         .polaroid .photo-caption {
             font-family: 'Caveat', cursive;
             font-size: 1rem;
-            color: #3a2c1a;
+            color: #7A8FAD;
             text-align: center;
             margin-top: 8px;
             padding: 0 4px;
@@ -369,7 +425,7 @@
         .about-main p strong { color: var(--text-primary); }
 
         .field-note {
-            background: rgba(201,151,58,0.07);
+            background: rgba(28,71,198,0.07);
             border-left: 3px solid var(--accent-gold);
             padding: 16px 20px;
             margin-top: 24px;
@@ -415,8 +471,8 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(232,226,213,0.05);
-            border: 1px solid rgba(232,226,213,0.1);
+            background: rgba(232,237,245,0.05);
+            border: 1px solid rgba(232,237,245,0.1);
             color: var(--text-muted);
             padding: 5px 12px;
             border-radius: 2px;
@@ -427,7 +483,7 @@
         }
 
         .tag:hover {
-            background: rgba(201,151,58,0.15);
+            background: rgba(28,71,198,0.15);
             border-color: var(--accent-gold);
             color: var(--accent-gold);
         }
@@ -460,7 +516,7 @@
             position: absolute;
             bottom: 0; left: 0; right: 0;
             height: 0;
-            background: linear-gradient(135deg, rgba(201,151,58,0.15), rgba(217,79,43,0.1));
+            background: linear-gradient(135deg, rgba(28,71,198,0.15), rgba(118,21,12,0.1));
             transition: height 0.35s;
         }
 
@@ -519,7 +575,7 @@
         .game-card:hover {
             border-color: var(--accent-gold);
             transform: translateY(-6px);
-            box-shadow: 0 12px 36px rgba(201,151,58,0.15);
+            box-shadow: 0 12px 36px rgba(28,71,198,0.15);
         }
 
         /* Game logo images */
@@ -726,7 +782,7 @@
         .resume-skill-group .tag { font-size: 0.76rem; }
 
         .professional-summary {
-            background: rgba(201,151,58,0.06);
+            background: rgba(28,71,198,0.06);
             border: 1px solid var(--border);
             border-left: 3px solid var(--accent-gold);
             border-radius: 0 4px 4px 0;
@@ -874,7 +930,7 @@
         .contact-item:hover {
             border-color: var(--accent-gold);
             transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(201,151,58,0.12);
+            box-shadow: 0 12px 40px rgba(28,71,198,0.12);
         }
 
         .ci-icon {
@@ -886,7 +942,7 @@
             justify-content: center;
             font-size: 1.4rem;
             color: #0D0F14;
-            box-shadow: 0 4px 18px rgba(201,151,58,0.25);
+            box-shadow: 0 4px 18px rgba(28,71,198,0.25);
         }
 
         .ci-label {
@@ -1074,7 +1130,7 @@
             cursor: pointer;
             transition: background 0.3s;
         }
-        .admin-input-group button:hover { background: #e0aa46; }
+        .admin-input-group button:hover { background: #153a9e; }
 
         .admin-error {
             font-size: 0.78rem;
@@ -1161,8 +1217,8 @@
             color: #e74c3c;
         }
         .admin-toast.info {
-            background: rgba(74,127,165,0.15);
-            border: 1px solid rgba(74,127,165,0.4);
+            background: rgba(28,71,198,0.15);
+            border: 1px solid rgba(28,71,198,0.4);
             color: var(--accent-steel);
         }
 
@@ -1170,7 +1226,7 @@
            INLINE EDITING
         ============================================ */
         .admin-active .editable-field {
-            outline: 1px dashed rgba(201,151,58,0.3);
+            outline: 1px dashed rgba(28,71,198,0.3);
             outline-offset: 4px;
             cursor: text;
             transition: outline-color 0.3s;
@@ -1202,11 +1258,11 @@
             align-items: center;
             gap: 5px;
             z-index: 50;
-            box-shadow: 0 4px 16px rgba(201,151,58,0.3);
+            box-shadow: 0 4px 16px rgba(28,71,198,0.3);
             transition: all 0.2s;
         }
         .inline-save-btn:hover {
-            background: #e0aa46;
+            background: #153a9e;
             transform: translateY(-2px);
         }
 
@@ -1226,15 +1282,15 @@
             height: 90px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--accent-gold);
-            box-shadow: 0 4px 24px rgba(201,151,58,0.25);
+            border: 2px solid rgba(118,21,12,0.5);
+            box-shadow: none;
         }
 
         .profile-pic-overlay {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            background: rgba(13,15,20,0.7);
+            background: rgba(22,22,22,0.7);
             display: none;
             flex-direction: column;
             align-items: center;
@@ -1250,7 +1306,7 @@
         }
         .profile-pic-overlay i { font-size: 1.2rem; }
         .admin-active .editable-pic .profile-pic-overlay { display: flex; }
-        .profile-pic-overlay:hover { background: rgba(13,15,20,0.85); }
+        .profile-pic-overlay:hover { background: rgba(22,22,22,0.85); }
 
         /* ============================================
            ALBUM SECTIONS
@@ -1354,7 +1410,7 @@
             min-height: 200px;
             border: 2px dashed var(--border);
             border-radius: 4px;
-            background: rgba(201,151,58,0.03);
+            background: rgba(28,71,198,0.03);
             color: var(--text-dim);
             cursor: pointer;
             transition: all 0.3s;
@@ -1362,7 +1418,7 @@
         .album-upload-btn:hover {
             border-color: var(--accent-gold);
             color: var(--accent-gold);
-            background: rgba(201,151,58,0.06);
+            background: rgba(28,71,198,0.06);
         }
         .album-upload-btn i { font-size: 2rem; }
         .upload-text {
@@ -1472,7 +1528,7 @@
         .polaroid-edit-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(13,15,20,0.75);
+            background: rgba(22,22,22,0.75);
             display: none;
             flex-direction: column;
             align-items: center;
@@ -1489,7 +1545,7 @@
         }
         .polaroid-edit-overlay i { font-size: 1.5rem; }
         .admin-active .polaroid-edit-overlay { display: flex; }
-        .polaroid-edit-overlay:hover { background: rgba(13,15,20,0.9); }
+        .polaroid-edit-overlay:hover { background: rgba(22,22,22,0.9); }
 
         /* ============================================
            PHOTO PICKER MODAL
@@ -1508,7 +1564,7 @@
 
         .picker-upload-btn {
             padding: 10px 20px;
-            background: rgba(201,151,58,0.1);
+            background: rgba(28,71,198,0.1);
             border: 1px dashed var(--accent-gold);
             border-radius: 4px;
             color: var(--accent-gold);
@@ -1523,7 +1579,7 @@
             transition: all 0.3s;
         }
         .picker-upload-btn:hover {
-            background: rgba(201,151,58,0.2);
+            background: rgba(28,71,198,0.2);
         }
 
         .picker-content {
@@ -1552,7 +1608,7 @@
         .picker-item:hover {
             border-color: var(--accent-gold);
             transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(201,151,58,0.2);
+            box-shadow: 0 8px 24px rgba(28,71,198,0.2);
         }
         .picker-item img {
             width: 100%;
@@ -1608,7 +1664,7 @@
                 gap: 20px;
                 position: absolute;
                 top: 100%; left: 0; right: 0;
-                background: rgba(13,15,20,0.97);
+                background: rgba(22,22,22,0.97);
                 padding: 28px 24px;
                 border-bottom: 1px solid var(--border);
             }
@@ -1638,6 +1694,11 @@
 </head>
 
 <body>
+
+    <!-- Ambient Light Blobs -->
+    <div class="ambient-blob ambient-blob-1"></div>
+    <div class="ambient-blob ambient-blob-2"></div>
+    <div class="ambient-blob ambient-blob-3"></div>
 
     <!-- Navigation -->
     <nav id="navbar">
@@ -1818,45 +1879,54 @@
 
             <div class="games-grid">
                 <!-- Valorant -->
-                <div class="game-card reveal">
-                    <img class="game-logo-img" src="https://cdn.vectorstock.com/i/1000v/37/87/valorant-logo-icon-gaming-streamer-vector-33193787.jpg" alt="Valorant Logo">
-                    <h4>Valorant</h4>
-                    <p>Tactical Shooter</p>
+                <div class="game-card reveal" data-game="valorant">
+                    <div class="card-front">
+                        <img class="game-logo" src="https://cdn.vectorstock.com/i/1000v/37/87/valorant-logo-icon-gaming-streamer-vector-33193787.jpg" alt="Valorant Logo">
+                        <div class="game-name">Valorant</div>
+                        <div class="game-genre">Tactical Shooter</div>
+                    </div>
                 </div>
                 <!-- Minecraft -->
-                <div class="game-card reveal">
-                    <img class="game-logo-img" src="https://thumbs.dreamstime.com/b/minecraft-logo-online-game-dirt-block-illustrations-concept-design-isolated-186775550.jpg" alt="Minecraft Logo">
-                    <h4>Minecraft</h4>
-                    <p>Sandbox Survival</p>
+                <div class="game-card reveal" data-game="minecraft">
+                    <div class="card-front">
+                        <img class="game-logo" src="https://thumbs.dreamstime.com/b/minecraft-logo-online-game-dirt-block-illustrations-concept-design-isolated-186775550.jpg" alt="Minecraft Logo">
+                        <div class="game-name">Minecraft</div>
+                        <div class="game-genre">Sandbox Survival</div>
+                    </div>
                 </div>
                 <!-- Rocket League -->
-                <div class="game-card reveal">
-                    <img class="game-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Rocket_League_coverart.jpg" alt="Rocket League Logo">
-                    <h4>Rocket League</h4>
-                    <p>Car Soccer</p>
+                <div class="game-card reveal" data-game="rocketleague">
+                    <div class="card-front">
+                        <img class="game-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Rocket_League_coverart.jpg" alt="Rocket League Logo">
+                        <div class="game-name">Rocket League</div>
+                        <div class="game-genre">Car Soccer</div>
+                    </div>
                 </div>
                 <!-- Delta Force -->
-                <div class="game-card reveal">
-                    <img class="game-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/3/34/Delta_Force.png" alt="Delta Force Logo">
-                    <h4>Delta Force</h4>
-                    <p>Tactical FPS</p>
+                <div class="game-card reveal" data-game="deltaforce">
+                    <div class="card-front">
+                        <img class="game-logo" src="https://upload.wikimedia.org/wikipedia/commons/3/34/Delta_Force.png" alt="Delta Force Logo">
+                        <div class="game-name">Delta Force</div>
+                        <div class="game-genre">Tactical FPS</div>
+                    </div>
                 </div>
                 <!-- More Games -->
                 <div class="game-card reveal">
-                    <svg class="game-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="200" height="200" fill="#1a1a2e" rx="8"/>
-                        <!-- Gamepad icon -->
-                        <rect x="40" y="70" width="120" height="70" rx="35" fill="none" stroke="#C9973A" stroke-width="5"/>
-                        <rect x="55" y="95" width="24" height="8" rx="2" fill="#C9973A"/>
-                        <rect x="63" y="87" width="8" height="24" rx="2" fill="#C9973A"/>
-                        <circle cx="132" cy="91" r="6" fill="none" stroke="#C9973A" stroke-width="3"/>
-                        <circle cx="148" cy="101" r="6" fill="none" stroke="#C9973A" stroke-width="3"/>
-                        <circle cx="132" cy="111" r="6" fill="none" stroke="#C9973A" stroke-width="3"/>
-                        <circle cx="116" cy="101" r="6" fill="none" stroke="#C9973A" stroke-width="3"/>
-                        <text x="100" y="172" text-anchor="middle" fill="#C9973A" font-size="12" font-family="Arial Black" font-weight="900" letter-spacing="1">&amp; MORE...</text>
-                    </svg>
-                    <h4>&amp; More</h4>
-                    <p>Always Exploring</p>
+                    <div class="card-front">
+                        <svg class="game-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width:90px;height:90px;border-radius:14px;">
+                            <rect width="200" height="200" fill="#1e1e1e" rx="8"/>
+                            <rect x="40" y="70" width="120" height="70" rx="35" fill="none" stroke="#1c47c6" stroke-width="5"/>
+                            <rect x="55" y="95" width="24" height="8" rx="2" fill="#1c47c6"/>
+                            <rect x="63" y="87" width="8" height="24" rx="2" fill="#1c47c6"/>
+                            <circle cx="132" cy="91" r="6" fill="none" stroke="#1c47c6" stroke-width="3"/>
+                            <circle cx="148" cy="101" r="6" fill="none" stroke="#1c47c6" stroke-width="3"/>
+                            <circle cx="132" cy="111" r="6" fill="none" stroke="#1c47c6" stroke-width="3"/>
+                            <circle cx="116" cy="101" r="6" fill="none" stroke="#1c47c6" stroke-width="3"/>
+                            <text x="100" y="172" text-anchor="middle" fill="#1c47c6" font-size="12" font-family="Arial Black" font-weight="900" letter-spacing="1">&amp; MORE...</text>
+                        </svg>
+                        <div class="game-name">&amp; More</div>
+                        <div class="game-genre">Always Exploring</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2142,6 +2212,11 @@
     <script src="auth.js"></script>
     <script src="admin.js"></script>
     <script src="gallery.js"></script>
+
+    <!-- Visual Effects -->
+    <script src="cursor.js"></script>
+    <script src="particles.js"></script>
+    <script src="flipcard.js"></script>
 
 </body>
 </html>
