@@ -4,8 +4,8 @@
 
 // ⚠️ IMPORTANT: Replace these with your actual Supabase project values!
 // See README.md for setup instructions.
-const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+const SUPABASE_URL = 'https://enuselhmdirqnseusabm.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVudXNlbGhtZGlycW5zZXVzYWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3ODU3MzAsImV4cCI6MjA5NTM2MTczMH0.fh2WqBeobDMRODCBj1lxsHnV_JX4tCS8rt_aSauBMto';
 
 // Admin password for edit mode (change this to your own secret password)
 const ADMIN_PASSWORD = 'richthofen2026';
