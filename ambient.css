@@ -1,0 +1,59 @@
+/* ============================================
+   AMBIENT.CSS — Gradient Light Blobs (Subtle)
+   ============================================ */
+
+.ambient-blob {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(120px);
+    will-change: transform;
+}
+
+.ambient-blob-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(28,71,198,0.04) 0%, transparent 70%);
+    top: -100px;
+    left: -100px;
+    animation: blobFloat1 15s ease-in-out infinite;
+}
+
+.ambient-blob-2 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(118,21,12,0.03) 0%, transparent 70%);
+    bottom: -80px;
+    right: -80px;
+    animation: blobFloat2 20s ease-in-out infinite;
+}
+
+.ambient-blob-3 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(28,71,198,0.03) 0%, transparent 70%);
+    top: 40%;
+    left: 50%;
+    animation: blobFloat3 25s ease-in-out infinite;
+}
+
+@keyframes blobFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(120px, 80px) scale(1.1); }
+    50% { transform: translate(60px, 200px) scale(0.95); }
+    75% { transform: translate(-40px, 100px) scale(1.05); }
+}
+
+@keyframes blobFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-100px, -60px) scale(1.08); }
+    50% { transform: translate(-180px, -120px) scale(0.92); }
+    75% { transform: translate(-80px, -180px) scale(1.05); }
+}
+
+@keyframes blobFloat3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    33% { transform: translate(-30%, -40%) scale(1.12); }
+    66% { transform: translate(-60%, -55%) scale(0.9); }
+}
