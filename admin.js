@@ -140,6 +140,9 @@
 
         // Also load profile picture
         loadProfilePicture(data);
+
+        // Also load saved polaroid photos
+        loadPolaroidPhotos(data);
     }
 
     // ══════════════════════════════════════════
@@ -263,6 +266,206 @@
                 cap.setAttribute('contenteditable', 'true');
                 cap.classList.add('editable-field');
             });
+        });
+
+        // Also enable polaroid editing
+        enablePolaroidEdit();
+    }
+
+    // ══════════════════════════════════════════
+    //  POLAROID PHOTO EDITING (Hero Section)
+    // ══════════════════════════════════════════
+
+    function enablePolaroidEdit() {
+        const polaroids = document.querySelectorAll('.polaroid');
+
+        polaroids.forEach(polaroid => {
+            const img = polaroid.querySelector('.photo-area img');
+            if (!img) return;
+
+            // Skip if already set up
+            if (polaroid.querySelector('.polaroid-edit-overlay')) return;
+
+            // Create edit overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'polaroid-edit-overlay';
+            overlay.innerHTML = '<i class="fas fa-images"></i><span>Change</span>';
+
+            const photoArea = polaroid.querySelector('.photo-area');
+            photoArea.style.position = 'relative';
+            photoArea.appendChild(overlay);
+
+            // On click, open photo picker
+            overlay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openPhotoPicker(img, polaroid);
+            });
+        });
+    }
+
+    // ── Photo Picker Modal ──
+    async function openPhotoPicker(targetImg, polaroid) {
+        // Remove existing picker
+        const existing = document.getElementById('photo-picker-overlay');
+        if (existing) existing.remove();
+
+        // Gather all uploaded photos from all album grids
+        let allPhotos = [];
+
+        // From Supabase
+        if (supabaseClient) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('photos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (!error && data) {
+                    allPhotos = data;
+                }
+            } catch (e) {
+                console.warn('Could not load photos for picker:', e);
+            }
+        }
+
+        // Fallback: from localStorage
+        if (allPhotos.length === 0) {
+            ['trip', 'photo', 'gaming'].forEach(type => {
+                const saved = localStorage.getItem(`album_${type}`);
+                if (saved) {
+                    try {
+                        const photos = JSON.parse(saved);
+                        allPhotos = allPhotos.concat(photos);
+                    } catch (e) { /* skip */ }
+                }
+            });
+        }
+
+        // Also include the existing polaroid images as options
+        const existingPolaroidImgs = document.querySelectorAll('.polaroid .photo-area img');
+        existingPolaroidImgs.forEach(pImg => {
+            const src = pImg.getAttribute('src');
+            if (src && !src.startsWith('data:')) {
+                // Only add non-data-url images (external URLs)
+                const exists = allPhotos.find(p => p.image_url === src);
+                if (!exists) {
+                    allPhotos.push({ image_url: src, caption: pImg.alt || 'Existing photo', _isLocal: true });
+                }
+            }
+        });
+
+        // Build modal
+        const overlay = document.createElement('div');
+        overlay.id = 'photo-picker-overlay';
+        overlay.className = 'admin-overlay';
+
+        let photosHtml = '';
+        if (allPhotos.length === 0) {
+            photosHtml = '<div class="picker-empty"><i class="fas fa-image"></i><p>No photos uploaded yet. Upload photos in the gallery sections first!</p></div>';
+        } else {
+            photosHtml = '<div class="picker-grid">';
+            allPhotos.forEach((photo, idx) => {
+                const typeLabel = photo.album_type ? photo.album_type.charAt(0).toUpperCase() + photo.album_type.slice(1) : '';
+                photosHtml += `
+                    <div class="picker-item" data-idx="${idx}">
+                        <img src="${photo.image_url}" alt="${photo.caption || ''}" loading="lazy" />
+                        <div class="picker-item-info">
+                            <span class="picker-caption">${photo.caption || 'No caption'}</span>
+                            ${typeLabel ? `<span class="picker-type">${typeLabel}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            photosHtml += '</div>';
+        }
+
+        overlay.innerHTML = `
+            <div class="admin-modal picker-modal">
+                <div class="admin-modal-header">
+                    <i class="fas fa-images" style="color: var(--accent-gold);"></i>
+                    <h3>Choose a Photo</h3>
+                </div>
+                <p class="admin-modal-desc">Select a photo from your gallery to use for this polaroid, or upload a new one.</p>
+                <div class="picker-upload-row">
+                    <button class="picker-upload-btn" id="picker-upload-new">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload New Photo
+                    </button>
+                    <input type="file" id="picker-file-input" accept="image/*" style="display:none;" />
+                </div>
+                <div class="picker-content">
+                    ${photosHtml}
+                </div>
+                <button class="admin-modal-close" id="picker-close">&times;</button>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        // Close handler
+        document.getElementById('picker-close').addEventListener('click', () => overlay.remove());
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+
+        // Upload new photo handler
+        const fileInput = document.getElementById('picker-file-input');
+        document.getElementById('picker-upload-new').addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const url = await uploadProfilePicture(file);
+            if (url) {
+                targetImg.src = url;
+                const fieldKey = getPolaroidFieldKey(polaroid);
+                await saveFieldToSupabase(fieldKey, url);
+                window.showToastNotification('Polaroid photo updated!', 'success');
+                overlay.remove();
+            }
+        });
+
+        // Click to select existing photo
+        overlay.querySelectorAll('.picker-item').forEach((item) => {
+            item.addEventListener('click', async () => {
+                const idx = parseInt(item.getAttribute('data-idx'));
+                const photo = allPhotos[idx];
+                if (!photo) return;
+
+                targetImg.src = photo.image_url;
+                const fieldKey = getPolaroidFieldKey(polaroid);
+                await saveFieldToSupabase(fieldKey, photo.image_url);
+                window.showToastNotification('Polaroid photo updated!', 'success');
+                overlay.remove();
+            });
+        });
+    }
+
+    function getPolaroidFieldKey(polaroid) {
+        if (polaroid.classList.contains('pol-1')) return 'polaroid_1_url';
+        if (polaroid.classList.contains('pol-2')) return 'polaroid_2_url';
+        if (polaroid.classList.contains('pol-3')) return 'polaroid_3_url';
+        return 'polaroid_unknown_url';
+    }
+
+    // ── Load saved polaroid photos on page load ──
+    function loadPolaroidPhotos(data) {
+        const mappings = {
+            'polaroid_1_url': '.pol-1 .photo-area img',
+            'polaroid_2_url': '.pol-2 .photo-area img',
+            'polaroid_3_url': '.pol-3 .photo-area img'
+        };
+
+        Object.entries(mappings).forEach(([key, selector]) => {
+            let savedUrl = null;
+            if (data && data[key]) {
+                savedUrl = data[key];
+            } else {
+                savedUrl = localStorage.getItem('field_' + key);
+            }
+
+            if (savedUrl) {
+                const img = document.querySelector(selector);
+                if (img) img.src = savedUrl;
+            }
         });
     }
 

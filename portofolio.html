@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richthofen – Portfolio</title>
+    <meta name="description" content="Portfolio of Richthofen – Content Creator, Gamer, Photographer, and Designer.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;600;700&family=Caveat:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* ============================================
+           MASCULINE DARK ADVENTURE THEME
+        ============================================ */
+        :root {
+            --bg-deep:      #0D0F14;
+            --bg-card:      #141720;
+            --bg-surface:   #1A1E2B;
+            --accent-gold:  #C9973A;
+            --accent-ember: #D94F2B;
+            --accent-steel: #4A7FA5;
+            --text-primary: #E8E2D5;
+            --text-muted:   #8A8F9E;
+            --text-dim:     #5A5F6E;
+            --border:       rgba(201,151,58,0.2);
+            --border-bright:rgba(201,151,58,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Subtle grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-image:
+                linear-gradient(rgba(201,151,58,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201,151,58,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 15% 20%, rgba(217,79,43,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 80%, rgba(74,127,165,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(201,151,58,0.05) 0%, transparent 60%);
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 18px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13,15,20,0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-logo span { color: var(--accent-gold); }
+
+        .nav-links { list-style: none; display: flex; gap: 36px; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 0; height: 1.5px;
+            background: var(--accent-gold);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent-gold); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .hamburger { display: none; font-size: 1.4rem; color: var(--accent-gold); cursor: pointer; }
+
+        /* ============================================
+           HERO
+        ============================================ */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 110px 48px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Corner brackets decoration */
+        .bracket-tl, .bracket-br {
+            position: absolute;
+            width: 80px; height: 80px;
+            border-color: var(--accent-gold);
+            border-style: solid;
+            opacity: 0.25;
+        }
+        .bracket-tl { top: 80px; left: 24px; border-width: 2px 0 0 2px; }
+        .bracket-br { bottom: 30px; right: 24px; border-width: 0 2px 2px 0; }
+
+        .hero-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(201,151,58,0.12);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 7px 18px;
+            border-radius: 2px;
+            margin-bottom: 24px;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 6vw, 6rem);
+            font-weight: 900;
+            line-height: 1;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero-text h1 .gold { color: var(--accent-gold); }
+
+        .hero-text .tagline {
+            font-family: 'Caveat', cursive;
+            font-size: 1.25rem;
+            color: var(--accent-steel);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero-text p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+            max-width: 480px;
+            margin-bottom: 36px;
+        }
+
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            border-radius: 2px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: #0D0F14;
+            box-shadow: 0 4px 24px rgba(201,151,58,0.3);
+        }
+        .btn-primary:hover {
+            background: #e0aa46;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(201,151,58,0.45);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(232,226,213,0.3);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-3px);
+        }
+
+        /* ---- Polaroid collage ---- */
+        .hero-visual {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .polaroid {
+            position: absolute;
+            background: #F0EAD6;
+            padding: 10px 10px 44px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .polaroid:hover {
+            z-index: 10;
+            transform: scale(1.08) rotate(0deg) !important;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+        }
+
+        .polaroid .photo-area {
+            width: 200px;
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .polaroid .photo-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .polaroid .photo-caption {
+            font-family: 'Caveat', cursive;
+            font-size: 1rem;
+            color: #3a2c1a;
+            text-align: center;
+            margin-top: 8px;
+            padding: 0 4px;
+            line-height: 1.3;
+        }
+
+        .pol-1 { transform: rotate(-8deg); top: 20px; left: 10px; z-index: 3; }
+        .pol-2 { transform: rotate(5deg); top: 40px; right: 0px; z-index: 2; }
+        .pol-3 { transform: translateX(-50%) rotate(-3deg); bottom: 10px; left: 50%; z-index: 1; }
+
+        /* Target stamp */
+        .target-stamp {
+            position: absolute;
+            bottom: 40px; right: 10px;
+            font-family: 'Caveat', cursive;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            width: 72px; height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0.6;
+            transform: rotate(-12deg);
+            line-height: 1.3;
+        }
+
+        /* ============================================
+           SECTION COMMONS
+        ============================================ */
+        section { padding: 110px 48px; }
+
+        .section-wrapper { max-width: 1100px; margin: 0 auto; }
+
+        .section-eyebrow {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-eyebrow::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--accent-gold);
+            opacity: 0.5;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 60px;
+            line-height: 1.15;
+        }
+        .section-title span { color: var(--accent-gold); }
+
+        /* divider line */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            opacity: 0.2;
+            margin: 0;
+        }
+
+        /* ============================================
+           ABOUT
+        ============================================ */
+        #about { background: var(--bg-surface); position: relative; }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .about-main p {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        .about-main p strong { color: var(--text-primary); }
+
+        .field-note {
+            background: rgba(201,151,58,0.07);
+            border-left: 3px solid var(--accent-gold);
+            padding: 16px 20px;
+            margin-top: 24px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .info-cards { display: flex; flex-direction: column; gap: 18px; }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .info-card:hover { border-color: var(--border-bright); }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-ember));
+        }
+
+        .info-card h4 {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 14px;
+        }
+
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(232,226,213,0.05);
+            border: 1px solid rgba(232,226,213,0.1);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 2px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.25s;
+            cursor: default;
+        }
+
+        .tag:hover {
+            background: rgba(201,151,58,0.15);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* ============================================
+           SKILLS
+        ============================================ */
+        #skills { background: var(--bg-deep); }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 36px 28px;
+            text-align: center;
+            transition: all 0.35s ease;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 0;
+            background: linear-gradient(135deg, rgba(201,151,58,0.15), rgba(217,79,43,0.1));
+            transition: height 0.35s;
+        }
+
+        .skill-card:hover {
+            border-color: var(--border-bright);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .skill-card:hover::before { height: 100%; }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+            display: block;
+            position: relative;
+        }
+
+        .skill-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .skill-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            position: relative;
+        }
+
+        /* ============================================
+           GAMES
+        ============================================ */
+        #games { background: var(--bg-surface); }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 18px;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .game-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 36px rgba(201,151,58,0.15);
+        }
+
+        /* Game logo images */
+        .game-logo-img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            margin: 0 auto 14px;
+            display: block;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+        }
+
+        /* Fallback SVG logos inline */
+        .game-logo-svg {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 14px;
+            display: block;
+        }
+
+        .game-card h4 {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .game-card p {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ============================================
+           RESUME
+        ============================================ */
+        #resume { background: var(--bg-deep); }
+
+        .resume-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* Resume header card */
+        .resume-header-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 36px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .resume-header-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-ember), var(--accent-steel));
+        }
+        .resume-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .resume-name span { color: var(--accent-gold); }
+        .resume-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 14px;
+        }
+        .resume-meta a, .resume-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .resume-meta a:hover { color: var(--accent-gold); }
+        .resume-meta i { color: var(--accent-gold); font-size: 0.75rem; }
+
+        /* Resume blocks */
+        .resume-block {
+            margin-bottom: 48px;
+        }
+
+        .resume-block-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .resume-block-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Experience / Education entries */
+        .resume-entry {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 28px;
+            margin-bottom: 16px;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+        .resume-entry:hover { border-color: var(--border-bright); }
+        .resume-entry::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-gold), var(--accent-ember));
+            border-radius: 4px 0 0 4px;
+        }
+
+        .entry-role {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .entry-org {
+            font-size: 0.82rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+        }
+        .entry-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+        .entry-bullets {
+            margin: 10px 0 0 16px;
+            padding: 0;
+            list-style: none;
+        }
+        .entry-bullets li {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            padding-left: 18px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+        .entry-bullets li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-size: 0.7rem;
+            top: 4px;
+        }
+
+        /* Sidebar skills */
+        .resume-skill-group {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 24px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        .resume-skill-group:hover { border-color: var(--border-bright); }
+        .resume-skill-group::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-ember));
+        }
+        .resume-skill-group h5 {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 14px;
+        }
+        .resume-skill-group .tags { gap: 7px; }
+        .resume-skill-group .tag { font-size: 0.76rem; }
+
+        .professional-summary {
+            background: rgba(201,151,58,0.06);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-gold);
+            border-radius: 0 4px 4px 0;
+            padding: 24px 28px;
+            margin-bottom: 48px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.9;
+        }
+
+        @media (max-width: 900px) {
+            .resume-layout { grid-template-columns: 1fr; gap: 0; }
+            .resume-meta { flex-direction: column; gap: 10px; }
+        }
+
+        /* ============================================
+           CONTACT
+        ============================================ */
+        #contact { text-align: center; }
+
+        .contact-wrapper { max-width: 680px; margin: 0 auto; }
+
+        .contact-wrapper > p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 50px;
+            line-height: 1.85;
+        }
+
+        .contact-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        /* Social media links row */
+        .social-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .social-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            text-align: center;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        .social-label::before, .social-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .social-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 24px 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .social-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            transition: background 0.3s;
+        }
+        .social-item.tiktok-gaming::before { background: linear-gradient(90deg, #ff0050, #00f2ea); }
+        .social-item.tiktok-personal::before { background: linear-gradient(90deg, #010101, #69c9d0); }
+        .social-item.instagram::before { background: linear-gradient(90deg, #f58529, #dd2a7b, #8134af); }
+
+        .social-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+        }
+        .social-item.tiktok-gaming:hover { border-color: #ff0050; }
+        .social-item.tiktok-personal:hover { border-color: #69c9d0; }
+        .social-item.instagram:hover { border-color: #dd2a7b; }
+
+        .social-icon {
+            width: 52px; height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+        }
+        .social-icon.tiktok-bg { background: linear-gradient(135deg, #010101 50%, #ff0050); }
+        .social-icon.tiktok-p-bg { background: linear-gradient(135deg, #010101 50%, #69c9d0); }
+        .social-icon.ig-bg { background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af); }
+
+        .social-handle {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .social-type {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .social-row { grid-template-columns: 1fr; }
+        }
+
+        .contact-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 36px 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-item:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(201,151,58,0.12);
+        }
+
+        .ci-icon {
+            width: 58px; height: 58px;
+            border-radius: 2px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-ember));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #0D0F14;
+            box-shadow: 0 4px 18px rgba(201,151,58,0.25);
+        }
+
+        .ci-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+        }
+
+        .ci-value {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .coordinates {
+            font-family: 'Caveat', cursive;
+            font-size: 1rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            margin-top: 36px;
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            text-align: center;
+            padding: 36px 48px;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border);
+            letter-spacing: 1px;
+        }
+
+        footer i { color: var(--accent-ember); }
+
+        /* ============================================
+           SCROLL REVEAL
+        ============================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ============================================
+           ADMIN EDIT BUTTON
+        ============================================ */
+        #admin-edit-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            padding: 10px 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 30px;
+            background: rgba(20,23,32,0.75);
+            backdrop-filter: blur(12px);
+            color: var(--text-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.4;
+        }
+        #admin-edit-btn:hover {
+            opacity: 1;
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+        #admin-edit-btn.active {
+            background: rgba(46,204,113,0.15);
+            border-color: #2ecc71;
+            color: #2ecc71;
+            opacity: 0.85;
+        }
+        #admin-edit-btn.active:hover { opacity: 1; }
+
+        /* ============================================
+           ADMIN OVERLAY & MODAL
+        ============================================ */
+        .admin-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.25s ease;
+        }
+        .admin-overlay.fade-out { animation: fadeOut 0.3s ease forwards; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+        .admin-modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px;
+            width: 90%;
+            max-width: 380px;
+            position: relative;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(30px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .admin-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .admin-modal-header i {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+        }
+        .admin-modal-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        .admin-modal-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .admin-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .admin-input-group input {
+            flex: 1;
+            background: var(--bg-deep);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .admin-input-group input:focus {
+            border-color: var(--accent-gold);
+        }
+        .admin-input-group input.shake {
+            animation: shakeAnim 0.4s ease;
+        }
+
+        @keyframes shakeAnim {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .admin-input-group button {
+            background: var(--accent-gold);
+            border: none;
+            border-radius: 4px;
+            padding: 12px 18px;
+            color: #0D0F14;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .admin-input-group button:hover { background: #e0aa46; }
+
+        .admin-error {
+            font-size: 0.78rem;
+            color: #e74c3c;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .admin-error.visible { opacity: 1; }
+
+        .admin-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+        .admin-modal-close:hover { color: var(--text-primary); }
+
+        .admin-menu-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .admin-action-btn {
+            padding: 12px 20px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background: var(--bg-deep);
+            color: var(--text-muted);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-action-btn.logout:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+            background: rgba(231,76,60,0.08);
+        }
+
+        /* ── Toast ── */
+        .admin-toast {
+            position: fixed;
+            bottom: 80px;
+            right: 24px;
+            z-index: 3000;
+            padding: 14px 24px;
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .admin-toast.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .admin-toast.success {
+            background: rgba(46,204,113,0.15);
+            border: 1px solid rgba(46,204,113,0.4);
+            color: #2ecc71;
+        }
+        .admin-toast.error {
+            background: rgba(231,76,60,0.15);
+            border: 1px solid rgba(231,76,60,0.4);
+            color: #e74c3c;
+        }
+        .admin-toast.info {
+            background: rgba(74,127,165,0.15);
+            border: 1px solid rgba(74,127,165,0.4);
+            color: var(--accent-steel);
+        }
+
+        /* ============================================
+           INLINE EDITING
+        ============================================ */
+        .admin-active .editable-field {
+            outline: 1px dashed rgba(201,151,58,0.3);
+            outline-offset: 4px;
+            cursor: text;
+            transition: outline-color 0.3s;
+            border-radius: 2px;
+        }
+        .admin-active .editable-field:hover {
+            outline-color: var(--accent-gold);
+        }
+        .admin-active .editable-field:focus {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 4px;
+        }
+
+        .inline-save-btn {
+            position: absolute;
+            bottom: -32px;
+            right: 0;
+            padding: 5px 14px;
+            background: var(--accent-gold);
+            color: #0D0F14;
+            border: none;
+            border-radius: 3px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 50;
+            box-shadow: 0 4px 16px rgba(201,151,58,0.3);
+            transition: all 0.2s;
+        }
+        .inline-save-btn:hover {
+            background: #e0aa46;
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           PROFILE PICTURE
+        ============================================ */
+        #profile-pic-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        #hero-profile-pic {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-gold);
+            box-shadow: 0 4px 24px rgba(201,151,58,0.25);
+        }
+
+        .profile-pic-overlay {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(13,15,20,0.7);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            color: var(--accent-gold);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .profile-pic-overlay i { font-size: 1.2rem; }
+        .admin-active .editable-pic .profile-pic-overlay { display: flex; }
+        .profile-pic-overlay:hover { background: rgba(13,15,20,0.85); }
+
+        /* ============================================
+           ALBUM SECTIONS
+        ============================================ */
+        .album-section { position: relative; }
+        #album-trip { background: var(--bg-surface); }
+        #album-photo { background: var(--bg-deep); }
+        #album-gaming { background: var(--bg-surface); }
+
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 18px;
+            position: relative;
+        }
+
+        .album-photo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.35s ease;
+            animation: albumFadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes albumFadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .album-photo-card:hover {
+            border-color: var(--border-bright);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+        }
+
+        .fade-out-card {
+            animation: fadeOutCard 0.3s ease forwards !important;
+        }
+        @keyframes fadeOutCard {
+            to { opacity: 0; transform: scale(0.9); }
+        }
+
+        .album-photo-img-wrap {
+            width: 100%;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .album-photo-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .album-photo-card:hover .album-photo-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .album-caption {
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            min-height: 20px;
+        }
+
+        .album-delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(231,76,60,0.85);
+            border: none;
+            color: #fff;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .album-delete-btn:hover {
+            background: #e74c3c;
+            transform: scale(1.15);
+        }
+
+        /* Upload button (admin only) */
+        .album-upload-btn {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 200px;
+            border: 2px dashed var(--border);
+            border-radius: 4px;
+            background: rgba(201,151,58,0.03);
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .album-upload-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: rgba(201,151,58,0.06);
+        }
+        .album-upload-btn i { font-size: 2rem; }
+        .upload-text {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .album-upload-btn input { display: none; }
+        .album-upload-btn.uploading {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .album-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-dim);
+        }
+        .album-empty i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+            opacity: 0.4;
+        }
+        .album-empty p {
+            font-size: 0.85rem;
+        }
+
+        /* ============================================
+           LIGHTBOX
+        ============================================ */
+        .photo-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .photo-lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(12px);
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lightbox-content img {
+            max-width: 90vw;
+            max-height: 78vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 16px 60px rgba(0,0,0,0.6);
+        }
+
+        .lightbox-caption {
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .lightbox-close:hover { opacity: 1; }
+
+        @media (max-width: 900px) {
+            .album-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
+        }
+
+        /* ============================================
+           POLAROID EDITING OVERLAY
+        ============================================ */
+        .polaroid-edit-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(13,15,20,0.75);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            color: var(--accent-gold);
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            z-index: 15;
+            transition: background 0.3s;
+        }
+        .polaroid-edit-overlay i { font-size: 1.5rem; }
+        .admin-active .polaroid-edit-overlay { display: flex; }
+        .polaroid-edit-overlay:hover { background: rgba(13,15,20,0.9); }
+
+        /* ============================================
+           PHOTO PICKER MODAL
+        ============================================ */
+        .picker-modal {
+            max-width: 640px;
+            width: 95%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .picker-upload-row {
+            margin-bottom: 16px;
+        }
+
+        .picker-upload-btn {
+            padding: 10px 20px;
+            background: rgba(201,151,58,0.1);
+            border: 1px dashed var(--accent-gold);
+            border-radius: 4px;
+            color: var(--accent-gold);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        .picker-upload-btn:hover {
+            background: rgba(201,151,58,0.2);
+        }
+
+        .picker-content {
+            overflow-y: auto;
+            max-height: 50vh;
+            padding-right: 4px;
+        }
+        .picker-content::-webkit-scrollbar { width: 5px; }
+        .picker-content::-webkit-scrollbar-track { background: var(--bg-deep); }
+        .picker-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        .picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .picker-item {
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: var(--bg-deep);
+        }
+        .picker-item:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(201,151,58,0.2);
+        }
+        .picker-item img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+        }
+        .picker-item-info {
+            padding: 8px 10px;
+        }
+        .picker-caption {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .picker-type {
+            font-size: 0.62rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .picker-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-dim);
+        }
+        .picker-empty i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+            opacity: 0.4;
+        }
+        .picker-empty p { font-size: 0.85rem; }
+
+        @media (max-width: 900px) {
+            .picker-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 900px) {
+            nav { padding: 16px 24px; }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 20px;
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: rgba(13,15,20,0.97);
+                padding: 28px 24px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.open { display: flex; }
+            .hamburger { display: block; }
+
+            section { padding: 80px 24px; }
+
+            .hero-wrapper {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 50px;
+            }
+
+            .hero-text p { max-width: 100%; }
+            .hero-buttons { justify-content: center; }
+            .hero-visual { height: 360px; }
+            .polaroid .photo-area { width: 160px; height: 128px; }
+
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .contact-cards { grid-template-columns: 1fr; }
+
+            .section-eyebrow { justify-content: center; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#home" class="nav-logo">RICH<span>THOFEN</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#resume">Resume</a></li>
+            <li><a href="#album-trip">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="bracket-tl"></div>
+        <div class="bracket-br"></div>
+
+        <div class="hero-wrapper">
+            <div class="hero-text reveal">
+                <div id="profile-pic-container">
+                    <img id="hero-profile-pic" src="img_myphoto.jpg" alt="Richthofen">
+                </div>
+                <div class="badge">
+                    <i class="fas fa-camera-retro"></i>
+                    Content Creator &amp; Gamer
+                </div>
+                <h1 data-field-key="hero_name">I'm<br><span class="gold">Richthofen</span></h1>
+                <span class="tagline" data-field-key="hero_tagline">✦ 17 years old — documenting every moment ✦</span>
+                <p data-field-key="hero_bio">
+                    A content creator who lives between the digital battlefield and the real world —
+                    capturing memories through lenses, building worlds through games, and telling
+                    stories that matter.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#games" class="btn btn-primary">
+                        <i class="fas fa-gamepad"></i> My Games
+                    </a>
+                    <a href="#contact" class="btn btn-outline">
+                        <i class="fas fa-paper-plane"></i> Contact Me
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual reveal">
+                <!-- Polaroid 1: Trip Memories (group dab photo) -->
+                <div class="polaroid pol-1">
+                    <div class="photo-area">
+                        <img src="img_trip.jpg" alt="Trip Memories">
+                    </div>
+                    <p class="photo-caption">Trip Memories 📍</p>
+                </div>
+                <!-- Polaroid 2: My Photo (flower) -->
+                <div class="polaroid pol-2">
+                    <div class="photo-area">
+                        <img src="img_myphoto.jpg" alt="My Photo">
+                    </div>
+                    <p class="photo-caption">My Photo 📷</p>
+                </div>
+                <!-- Polaroid 3: Gaming (Valorant victory) -->
+                <div class="polaroid pol-3">
+                    <div class="photo-area">
+                        <img src="img_gaming.png" alt="Gaming">
+                    </div>
+                    <p class="photo-caption">Gaming 🎮</p>
+                </div>
+
+                <div class="target-stamp">RICH<br>THOFEN<br>2026</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-wrapper">
+            <div class="section-eyebrow">Get to know me</div>
+            <h2 class="section-title">About <span>Me</span></h2>
+
+            <div class="about-grid">
+                <div class="about-main reveal">
+                    <p>
+                        Hey, I'm <strong>Richthofen</strong> — 17 years old. A gamer and content creator
+                        who believes every moment is worth capturing. Whether it's a clutch round in
+                        Valorant or a quiet walk through nature, I document it all.
+                    </p>
+                    <p>
+                        I'm passionate about the craft of storytelling — through video, photography,
+                        design, and words spoken in front of a crowd. Life is an adventure,
+                        and I'm here to make every chapter count.
+                    </p>
+                    <div class="field-note">
+                        "Make every day a page worth writing in your book of adventures." ✈️
+                    </div>
+                </div>
+
+                <div class="info-cards reveal">
+                    <div class="info-card">
+                        <h4><i class="fas fa-gamepad"></i> &nbsp;Gaming Favorites</h4>
+                        <div class="tags">
+                            <span class="tag"><i class="fas fa-crosshairs"></i> Valorant</span>
+                            <span class="tag"><i class="fas fa-cube"></i> Minecraft</span>
+                            <span class="tag"><i class="fas fa-rocket"></i> Rocket League</span>
+                            <span class="tag"><i class="fas fa-shield-alt"></i> Delta Force</span>
+                            <span class="tag"><i class="fas fa-ellipsis-h"></i> & more</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h4><i class="fas fa-fire"></i> &nbsp;Passions</h4>
+                        <div class="tags">
+                            <span class="tag"><i class="fas fa-microphone"></i> Public Speaking</span>
+                            <span class="tag"><i class="fas fa-film"></i> Video Creation</span>
+                            <span class="tag"><i class="fas fa-clapperboard"></i> Film</span>
+                            <span class="tag"><i class="fas fa-camera"></i> Photography</span>
+                            <span class="tag"><i class="fas fa-palette"></i> Design</span>
+                            <span class="tag"><i class="fab fa-youtube"></i> Content Creator</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-wrapper">
+            <div class="section-eyebrow">What I do</div>
+            <h2 class="section-title">My <span>Skills</span></h2>
+
+            <div class="skills-grid">
+                <div class="skill-card reveal">
+                    <i class="fas fa-microphone skill-icon"></i>
+                    <h3>Public Speaking</h3>
+                    <p>Commanding the room with confidence — delivering ideas that land and stick.</p>
+                </div>
+                <div class="skill-card reveal">
+                    <i class="fas fa-video skill-icon"></i>
+                    <h3>Video Creation</h3>
+                    <p>From concept to final cut — producing videos that captivate and convert.</p>
+                </div>
+                <div class="skill-card reveal">
+                    <i class="fas fa-clapperboard skill-icon"></i>
+                    <h3>Film Making</h3>
+                    <p>Visual storytelling through cinematic composition and narrative direction.</p>
+                </div>
+                <div class="skill-card reveal">
+                    <i class="fas fa-camera skill-icon"></i>
+                    <h3>Photography</h3>
+                    <p>Freezing the perfect moment — turning real life into timeless frames.</p>
+                </div>
+                <div class="skill-card reveal">
+                    <i class="fas fa-palette skill-icon"></i>
+                    <h3>Design</h3>
+                    <p>Crafting visuals that communicate with power, clarity, and bold aesthetics.</p>
+                </div>
+                <div class="skill-card reveal">
+                    <i class="fab fa-youtube skill-icon"></i>
+                    <h3>Content Creation</h3>
+                    <p>Building a distinct identity and engaging audience across platforms.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Games Section -->
+    <section id="games">
+        <div class="section-wrapper">
+            <div class="section-eyebrow">Digital Adventures</div>
+            <h2 class="section-title">Games I <span>Play</span></h2>
+
+            <div class="games-grid">
+                <!-- Valorant -->
+                <div class="game-card reveal">
+                    <img class="game-logo-img" src="https://cdn.vectorstock.com/i/1000v/37/87/valorant-logo-icon-gaming-streamer-vector-33193787.jpg" alt="Valorant Logo">
+                    <h4>Valorant</h4>
+                    <p>Tactical Shooter</p>
+                </div>
+                <!-- Minecraft -->
+                <div class="game-card reveal">
+                    <img class="game-logo-img" src="https://thumbs.dreamstime.com/b/minecraft-logo-online-game-dirt-block-illustrations-concept-design-isolated-186775550.jpg" alt="Minecraft Logo">
+                    <h4>Minecraft</h4>
+                    <p>Sandbox Survival</p>
+                </div>
+                <!-- Rocket League -->
+                <div class="game-card reveal">
+                    <img class="game-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Rocket_League_coverart.jpg" alt="Rocket League Logo">
+                    <h4>Rocket League</h4>
+                    <p>Car Soccer</p>
+                </div>
+                <!-- Delta Force -->
+                <div class="game-card reveal">
+                    <img class="game-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/3/34/Delta_Force.png" alt="Delta Force Logo">
+                    <h4>Delta Force</h4>
+                    <p>Tactical FPS</p>
+                </div>
+                <!-- More Games -->
+                <div class="game-card reveal">
+                    <svg class="game-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="200" height="200" fill="#1a1a2e" rx="8"/>
+                        <!-- Gamepad icon -->
+                        <rect x="40" y="70" width="120" height="70" rx="35" fill="none" stroke="#C9973A" stroke-width="5"/>
+                        <rect x="55" y="95" width="24" height="8" rx="2" fill="#C9973A"/>
+                        <rect x="63" y="87" width="8" height="24" rx="2" fill="#C9973A"/>
+                        <circle cx="132" cy="91" r="6" fill="none" stroke="#C9973A" stroke-width="3"/>
+                        <circle cx="148" cy="101" r="6" fill="none" stroke="#C9973A" stroke-width="3"/>
+                        <circle cx="132" cy="111" r="6" fill="none" stroke="#C9973A" stroke-width="3"/>
+                        <circle cx="116" cy="101" r="6" fill="none" stroke="#C9973A" stroke-width="3"/>
+                        <text x="100" y="172" text-anchor="middle" fill="#C9973A" font-size="12" font-family="Arial Black" font-weight="900" letter-spacing="1">&amp; MORE...</text>
+                    </svg>
+                    <h4>&amp; More</h4>
+                    <p>Always Exploring</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Resume Section -->
+    <section id="resume">
+        <div class="section-wrapper">
+            <div class="section-eyebrow">Career Profile</div>
+            <h2 class="section-title">My <span>Resume</span></h2>
+
+            <!-- Header Card -->
+            <div class="resume-header-card reveal">
+                <div class="resume-name">Richthofen <span>Taczanowski</span> Suschitzky</div>
+                <div class="resume-meta">
+                    <span><i class="fas fa-map-marker-alt"></i> Lembang, Jawa Barat</span>
+                    <a href="mailto:richts2608@gmail.com"><i class="fas fa-envelope"></i> richts2608@gmail.com</a>
+                    <a href="tel:+6282217258541"><i class="fas fa-phone-alt"></i> 082217258541</a>
+                    <a href="#contact"><i class="fas fa-link"></i> Portfolio / Contact</a>
+                </div>
+            </div>
+
+            <!-- Professional Summary -->
+            <div class="professional-summary reveal">
+                <strong style="color: var(--text-primary); display: block; margin-bottom: 8px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;">Professional Summary</strong>
+                A proactive high school graduate with hands-on experience in commercial social media management and creative project planning. Strong interest in combining technology skills and data analysis. Capable of planning effective media content, supported by English proficiency and digital web development skills.
+            </div>
+
+            <!-- Two-column layout -->
+            <div class="resume-layout">
+
+                <!-- LEFT: Experience + Education -->
+                <div>
+                    <!-- Experience -->
+                    <div class="resume-block">
+                        <div class="resume-block-title"><i class="fas fa-briefcase"></i> Professional Experience &amp; Projects</div>
+
+                        <div class="resume-entry reveal">
+                            <div class="entry-role">Social Media Manager</div>
+                            <div class="entry-org"><i class="fas fa-building"></i> &nbsp;Bale Pare, Bumi Hejo &amp; Pasar Parahyangan — Bandung Area</div>
+                            <div class="entry-desc">
+                                Managed social media presence and audience engagement for three major commercial locations across the Bandung area.
+                            </div>
+                            <ul class="entry-bullets">
+                                <li>Created weekly content schedules to maintain consistent brand presence across platforms.</li>
+                                <li>Grew organic engagement through targeted post timing and audience interaction strategies.</li>
+                                <li>Coordinated with venue teams to capture authentic, on-brand visual content.</li>
+                            </ul>
+                        </div>
+
+                        <div class="resume-entry reveal">
+                            <div class="entry-role">Content Planner &amp; Creative Director</div>
+                            <div class="entry-org"><i class="fas fa-coffee"></i> &nbsp;Java Halu Coffee Promotion Project — Ciwidey, Bandung</div>
+                            <div class="entry-desc">Conceptualized and scripted a 55-second promotional video for social media (Reels format).</div>
+                            <ul class="entry-bullets">
+                                <li>Developed visual alignment guidelines and interview frameworks to highlight the local coffee estate's production process.</li>
+                                <li>Directed shot composition and narrative flow for maximum audience retention on short-form video platforms.</li>
+                                <li>Ensured brand storytelling authenticity by incorporating behind-the-scenes footage from the coffee farm.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="resume-block">
+                        <div class="resume-block-title"><i class="fas fa-graduation-cap"></i> Education</div>
+
+                        <div class="resume-entry reveal">
+                            <div class="entry-role">Senior High School (SMA)</div>
+                            <div class="entry-org"><i class="fas fa-check-circle"></i> &nbsp;Graduated</div>
+                            <div class="entry-desc">
+                                Completed final examinations (PSAJ) with a focus on Sciences (Chemistry, Physics), Social Sciences (History, Economics), and Advanced Mathematics.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Sidebar Skills -->
+                <div>
+                    <div class="resume-block">
+                        <div class="resume-block-title"><i class="fas fa-star"></i> Skills</div>
+
+                        <div class="resume-skill-group reveal">
+                            <h5><i class="fas fa-language"></i> &nbsp;Languages</h5>
+                            <div class="tags">
+                                <span class="tag">🇮🇩 Bahasa Indonesia (Native)</span>
+                                <span class="tag">🇬🇧 English</span>
+                            </div>
+                        </div>
+
+                        <div class="resume-skill-group reveal">
+                            <h5><i class="fas fa-code"></i> &nbsp;Technology &amp; Web</h5>
+                            <div class="tags">
+                                <span class="tag"><i class="fab fa-html5"></i> HTML</span>
+                                <span class="tag"><i class="fab fa-css3-alt"></i> CSS</span>
+                                <span class="tag"><i class="fas fa-code"></i> PHP</span>
+                                <span class="tag">Digital Web Dev</span>
+                                <span class="tag"><i class="fab fa-windows"></i> Windows</span>
+                                <span class="tag">Hardware Troubleshooting</span>
+                                <span class="tag">Audio Systems</span>
+                            </div>
+                        </div>
+
+                        <div class="resume-skill-group reveal">
+                            <h5><i class="fas fa-chart-line"></i> &nbsp;Analytics</h5>
+                            <div class="tags">
+                                <span class="tag">Algorithmic Trading Concepts</span>
+                                <span class="tag">Linear Regression</span>
+                                <span class="tag">Mathematical Data Integration</span>
+                            </div>
+                        </div>
+
+                        <div class="resume-skill-group reveal">
+                            <h5><i class="fas fa-dumbbell"></i> &nbsp;Other</h5>
+                            <div class="tags">
+                                <span class="tag">Calisthenics</span>
+                                <span class="tag">Time Management</span>
+                                <span class="tag">Discipline</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-wrapper">
+            <div class="contact-wrapper">
+                <div class="section-eyebrow" style="justify-content:center;">Send a Message</div>
+                <h2 class="section-title">Get In <span>Touch</span></h2>
+
+                <p class="reveal">
+                    Want to collaborate, ask something, or just say hi?
+                    Reach out via email, WhatsApp, or find me on social media — I'm always around. 📬
+                </p>
+
+                <div class="contact-cards reveal">
+                    <a href="mailto:richthofenofficial@gmail.com" class="contact-item">
+                        <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+                        <span class="ci-label">Email</span>
+                        <span class="ci-value">richthofenofficial@gmail.com</span>
+                    </a>
+                    <a href="tel:+6282217258541" class="contact-item">
+                        <div class="ci-icon"><i class="fas fa-phone-alt"></i></div>
+                        <span class="ci-label">WhatsApp / Phone</span>
+                        <span class="ci-value">0822-1725-8541</span>
+                    </a>
+                </div>
+
+                <!-- Social Media Row -->
+                <div class="social-label reveal">Find Me On Social Media</div>
+
+                <div class="social-row reveal">
+                    <!-- TikTok Gaming -->
+                    <a href="https://www.tiktok.com/@crimrich" target="_blank" rel="noopener" class="social-item tiktok-gaming">
+                        <div class="social-icon tiktok-bg"><i class="fab fa-tiktok"></i></div>
+                        <span class="social-handle">@crimrich</span>
+                        <span class="social-type">🎮 TikTok Gaming</span>
+                    </a>
+                    <!-- TikTok Personal -->
+                    <a href="https://www.tiktok.com/@stove.r" target="_blank" rel="noopener" class="social-item tiktok-personal">
+                        <div class="social-icon tiktok-p-bg"><i class="fab fa-tiktok"></i></div>
+                        <span class="social-handle">@stove.r</span>
+                        <span class="social-type">🎬 TikTok Personal</span>
+                    </a>
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/richth0fents" target="_blank" rel="noopener" class="social-item instagram">
+                        <div class="social-icon ig-bg"><i class="fab fa-instagram"></i></div>
+                        <span class="social-handle">@richth0fents</span>
+                        <span class="social-type">📸 Instagram</span>
+                    </a>
+                </div>
+
+                <div class="coordinates reveal">
+                    ── ✈ RICHTHOFEN · 2026 ✈ ──
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Album: Trip Memories -->
+    <section id="album-trip" class="album-section" data-album-type="trip">
+        <div class="section-wrapper">
+            <div class="section-eyebrow">🗺️ Memories</div>
+            <h2 class="section-title" data-field-key="album_trip_title">Trip <span>Memories</span></h2>
+
+            <div class="album-grid" id="trip-grid">
+                <!-- Upload button (admin only) -->
+                <div class="album-upload-btn" data-album-type="trip">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span class="upload-text">+ Upload Photo</span>
+                    <input type="file" accept="image/*" multiple />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Album: My Photo -->
+    <section id="album-photo" class="album-section" data-album-type="photo">
+        <div class="section-wrapper">
+            <div class="section-eyebrow">📸 Photography</div>
+            <h2 class="section-title" data-field-key="album_photo_title">My <span>Photo</span></h2>
+
+            <div class="album-grid" id="photo-grid">
+                <div class="album-upload-btn" data-album-type="photo">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span class="upload-text">+ Upload Photo</span>
+                    <input type="file" accept="image/*" multiple />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Album: My Gaming -->
+    <section id="album-gaming" class="album-section" data-album-type="gaming">
+        <div class="section-wrapper">
+            <div class="section-eyebrow">🎮 Achievements</div>
+            <h2 class="section-title" data-field-key="album_gaming_title">My <span>Gaming</span></h2>
+
+            <div class="album-grid" id="gaming-grid">
+                <div class="album-upload-btn" data-album-type="gaming">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span class="upload-text">+ Upload Photo</span>
+                    <input type="file" accept="image/*" multiple />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 RICHTHOFEN — Built with <i class="fas fa-heart"></i> and a lot of late-night gaming sessions</p>
+    </footer>
+
+    <script>
+        // Hamburger
+        const hamburger = document.getElementById('hamburger');
+        const navLinks  = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+        navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+        // Scroll Reveal
+        const reveals  = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), 80 * (entry.target.dataset.delay || 0));
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        reveals.forEach((el, i) => { el.dataset.delay = i % 5; observer.observe(el); });
+
+        // Active nav on scroll
+        const sections   = document.querySelectorAll('section[id]');
+        const navAnchors = document.querySelectorAll('.nav-links a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+            navAnchors.forEach(a => {
+                a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent-gold)' : '';
+            });
+        });
+    </script>
+
+    <!-- Admin CMS Scripts -->
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="admin.js"></script>
+    <script src="gallery.js"></script>
+
+</body>
+</html>
